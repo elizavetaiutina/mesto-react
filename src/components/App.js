@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
@@ -6,12 +6,12 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
 
-  const [selectedCard, setSelectedCard] = React.useState("");
+  const [selectedCard, setSelectedCard] = useState("");
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -48,6 +48,7 @@ function App() {
         name="edit-profile"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        buttonText="Сохранить"
       >
         <input
           type="text"
@@ -77,6 +78,7 @@ function App() {
         name="add-card"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
+        buttonText="Создать"
       >
         <input
           type="text"
@@ -104,6 +106,7 @@ function App() {
         name="edit-avatar"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
+        buttonText="Сохранить"
       >
         <input
           type="url"
@@ -115,7 +118,7 @@ function App() {
         />
         <span className="url-avatar-error form__span-error"></span>
       </PopupWithForm>
-      <PopupWithForm title="Вы уверены?" name="delete-card" />
+      <PopupWithForm title="Вы уверены?" name="delete-card" buttonText="Да" />
       <ImagePopup card={selectedCard} isOpen={isCardPopupOpen} onClose={closeAllPopups} />
     </div>
   );
