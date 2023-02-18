@@ -8,7 +8,7 @@ function Card(props) {
   return (
     <li className="card" onClick={handleClick}>
       <button type="button" aria-label="Удалить Карточку" className="card__button-delete"></button>
-      <img className="card__image" src={props.card.link} />
+      <img className="card__image" src={props.card.link} alt={props.card.name} />
       <div className="card__info">
         <h2 className="card__name">{props.card.name}</h2>
         <div className="card__like">
