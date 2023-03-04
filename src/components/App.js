@@ -13,6 +13,7 @@ import ImagePopup from "./ImagePopup";
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [arrayCards, setArrayCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -48,6 +49,7 @@ function App() {
       });
   }
   function handleUpdateUser(data) {
+    setIsLoading(true);
     api
       .editUserInfo(data)
       .then((data) => {
@@ -56,9 +58,13 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}.`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
   function handleUpdateAvatar(data) {
+    setIsLoading(true);
     api
       .editUserAvatar(data)
       .then((data) => {
@@ -67,9 +73,13 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}.`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
   function handleAddPlaceSubmit(card) {
+    setIsLoading(true);
     api
       .createNewCard(card)
       .then((card) => {
@@ -78,6 +88,9 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}.`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -135,6 +148,7 @@ function App() {
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          isLoading={isLoading}
           onUpdateAvatar={handleUpdateAvatar}
         />
         <PopupWithForm title="Вы уверены?" name="delete-card" buttonText="Да" />
