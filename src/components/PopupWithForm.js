@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function PopupWithForm({
   title,
   name,
@@ -9,6 +11,15 @@ function PopupWithForm({
   onClose,
   onSubmit,
 }) {
+  useEffect(() => {
+    document.addEventListener("mousedown", (event) => {
+      if (event.target.classList.contains("pop-up_opened")) {
+        onClose();
+        console.log("ffffff");
+      }
+    });
+  }, []);
+
   return (
     <div className={`pop-up pop-up_type_${name} ${isOpen ? "pop-up_opened" : ""}`}>
       <div className="pop-up__container">
