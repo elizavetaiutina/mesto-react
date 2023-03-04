@@ -62,7 +62,7 @@ function App() {
     api
       .editUserAvatar(data)
       .then((data) => {
-        setArrayCards(data);
+        setCurrentUser(data);
         closeAllPopups();
       })
       .catch((err) => {
