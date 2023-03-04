@@ -5,6 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 
 function App() {
@@ -36,13 +37,22 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    console.log("удалить карту", card);
     api
       .deleteCard(card._id)
       .then(() => {
         setArrayCards((state) => state.filter((c) => (c._id === card._id ? "" : c)));
-        console.log("удалили !");
-        console.log(arrayCards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}.`);
+      });
+  }
+
+  function handleUpdateUser(data) {
+    api
+      .editUserInfo(data)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}.`);
@@ -90,36 +100,11 @@ function App() {
           onCardDelete={handleCardDelete}
         />
         <Footer />
-        <PopupWithForm
-          title="Редактировать профиль"
-          name="edit-profile"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          buttonText="Сохранить"
-        >
-          <input
-            type="text"
-            id="name-input"
-            name="name"
-            className="form__input form__input_info_name"
-            placeholder="Имя"
-            minLength="2"
-            maxLength="40"
-            required
-          />
-          <span className="name-input-error form__span-error"></span>
-          <input
-            type="text"
-            id="profession-input"
-            name="about"
-            className="form__input form__input_info_profession"
-            placeholder="О себе"
-            minLength="2"
-            maxLength="200"
-            required
-          />
-          <span className="profession-input-error form__span-error"></span>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
         <PopupWithForm
           title="Новое место"
           name="add-card"
