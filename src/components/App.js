@@ -4,10 +4,10 @@ import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
-import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import DeleteCardPopup from "./DeleteCardPopup";
 import ImagePopup from "./ImagePopup";
 
 function App() {
@@ -39,13 +39,18 @@ function App() {
       });
   }
   function handleCardDelete(card) {
+    setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
         setArrayCards((state) => state.filter((c) => (c._id === card._id ? "" : c)));
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}.`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
   function handleUpdateUser(data) {
@@ -98,6 +103,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState("");
 
@@ -114,11 +120,16 @@ function App() {
     setIsCardPopupOpen(true);
     setSelectedCard(card);
   };
+  const handleDeleteClick = (card) => {
+    setIsDeleteCardPopupOpen(true);
+    setSelectedCard(card);
+  };
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsCardPopupOpen(false);
+    setIsDeleteCardPopupOpen(false);
   };
 
   return (
@@ -132,7 +143,7 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDelete={handleDeleteClick}
         />
         <Footer />
         <EditProfilePopup
@@ -151,7 +162,14 @@ function App() {
           isLoading={isLoading}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <PopupWithForm title="Вы уверены?" name="delete-card" buttonText="Да" />
+        <DeleteCardPopup
+          isOpen={isDeleteCardPopupOpen}
+          onClose={closeAllPopups}
+          isLoading={isLoading}
+          onDeleteCard={handleCardDelete}
+          card={selectedCard}
+        />
+
         <ImagePopup card={selectedCard} isOpen={isCardPopupOpen} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </div>
