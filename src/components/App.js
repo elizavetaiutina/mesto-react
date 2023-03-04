@@ -22,6 +22,33 @@ function App() {
       });
   }, []);
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((selectedCard) => {
+        setArrayCards((state) => state.map((c) => (c._id === card._id ? selectedCard : c)));
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}.`);
+      });
+  }
+
+  function handleCardDelete(card) {
+    console.log("удалить карту", card);
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setArrayCards((state) => state.filter((c) => (c._id === card._id ? "" : c)));
+        console.log("удалили !");
+        console.log(arrayCards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}.`);
+      });
+  }
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -59,6 +86,8 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         <PopupWithForm

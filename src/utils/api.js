@@ -60,18 +60,18 @@ class Api {
     });
   }
 
-  likeCard(id) {
-    return this._request(`${this._url}/cards/${id}//likes`, {
-      method: "PUT",
-      headers: this._headers,
-    });
-  }
-
-  dislikeCard(id) {
-    return this._request(`${this._url}/cards/${id}/likes`, {
-      method: "DELETE",
-      headers: this._headers,
-    });
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return this._request(`${this._url}/cards/${id}/likes`, {
+        method: "DELETE",
+        headers: this._headers,
+      });
+    } else {
+      return this._request(`${this._url}/cards/${id}//likes`, {
+        method: "PUT",
+        headers: this._headers,
+      });
+    }
   }
 }
 
