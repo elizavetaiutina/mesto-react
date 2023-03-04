@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {

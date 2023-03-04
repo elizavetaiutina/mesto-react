@@ -1,5 +1,3 @@
-import React from "react";
-
 function ImagePopup({ card, isOpen, onClose }) {
   return (
     <div className={`pop-up pop-up_type_card-open ${isOpen ? "pop-up_opened" : ""}`}>
