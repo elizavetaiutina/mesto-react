@@ -15,7 +15,6 @@ function PopupWithForm({
     document.addEventListener("mousedown", (event) => {
       if (event.target.classList.contains("pop-up_opened")) {
         onClose();
-        console.log("ffffff");
       }
     });
   }, []);
