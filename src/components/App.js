@@ -149,11 +149,13 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          isLoading={isLoading}
           onUpdateUser={handleUpdateUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          isLoading={isLoading}
           onAddPlace={handleAddPlaceSubmit}
         />
         <EditAvatarPopup
@@ -169,7 +171,6 @@ function App() {
           onDeleteCard={handleCardDelete}
           card={selectedCard}
         />
-
         <ImagePopup card={selectedCard} isOpen={isCardPopupOpen} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </div>
