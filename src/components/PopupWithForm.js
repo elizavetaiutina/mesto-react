@@ -19,12 +19,7 @@ function PopupWithForm({
           onClick={onClose}
         ></button>
         <h2 className="pop-up__title">{title}</h2>
-        <form
-          name={`form-${name}`}
-          className={`form form_type_${name}`}
-          onSubmit={onSubmit}
-          noValidate
-        >
+        <form name={`form-${name}`} className={`form form_type_${name}`} onSubmit={onSubmit}>
           {children}
           <button type="submit" className="form__button-save">
             {isLoading ? loadingText : buttonText}
