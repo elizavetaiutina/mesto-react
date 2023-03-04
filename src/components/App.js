@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 
 function App() {
@@ -50,6 +51,18 @@ function App() {
   function handleUpdateUser(data) {
     api
       .editUserInfo(data)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}.`);
+      });
+  }
+
+  function handleUpdateAvatar(data) {
+    api
+      .editUserAvatar(data)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -133,23 +146,11 @@ function App() {
           />
           <span className="url-input-error form__span-error"></span>
         </PopupWithForm>
-        <PopupWithForm
-          title="Обновить аватар"
-          name="edit-avatar"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          buttonText="Сохранить"
-        >
-          <input
-            type="url"
-            id="url-avatar"
-            name="avatar"
-            className="form__input form__input_info_url-avatar"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="url-avatar-error form__span-error"></span>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <PopupWithForm title="Вы уверены?" name="delete-card" buttonText="Да" />
         <ImagePopup card={selectedCard} isOpen={isCardPopupOpen} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
