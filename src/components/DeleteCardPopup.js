@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function DeleteCardPopup({ isOpen, onClose, isLoading, onDeleteCard, card }) {

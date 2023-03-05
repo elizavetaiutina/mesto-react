@@ -1,28 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm } from "../hooks/useForm";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, isLoading, onAddPlace }) {
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-  function handleChangeLink(e) {
-    setLink(e.target.value);
-  }
+  const { values, handleChange, setValues } = useForm({});
 
   useEffect(() => {
-    setName("");
-    setLink("");
+    setValues({});
   }, [isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onAddPlace({
-      name,
-      link,
+      name: values.name,
+      link: values.link,
     });
   }
   return (
@@ -44,8 +36,8 @@ function AddPlacePopup({ isOpen, onClose, isLoading, onAddPlace }) {
         placeholder="Название"
         minLength="2"
         maxLength="30"
-        value={name}
-        onChange={handleChangeName}
+        value={values.name || ""}
+        onChange={handleChange}
         required
       />
       <span className="nameplace-input-error form__span-error"></span>
@@ -55,8 +47,8 @@ function AddPlacePopup({ isOpen, onClose, isLoading, onAddPlace }) {
         name="link"
         className="form__input form__input_info_url-place"
         placeholder="Ссылка на картинку"
-        value={link}
-        onChange={handleChangeLink}
+        value={values.link || ""}
+        onChange={handleChange}
         required
       />
       <span className="url-input-error form__span-error"></span>

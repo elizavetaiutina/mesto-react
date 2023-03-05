@@ -99,13 +99,14 @@ function App() {
       });
   }
 
+  // Открытие закрытие попапов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
 
-  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -130,7 +131,39 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsCardPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
+    setSelectedCard({ name: "", link: "" });
   };
+
+  // Обработчик Escape
+  const isOpenPopup =
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    isEditAvatarPopupOpen ||
+    isCardPopupOpen ||
+    isDeleteCardPopupOpen;
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    function closeByOverlay(evt) {
+      if (evt.target.classList.contains("pop-up_opened")) {
+        closeAllPopups();
+      }
+    }
+    if (isOpenPopup) {
+      // Навешиваем только при открытии
+      document.addEventListener("keydown", closeByEscape);
+      document.addEventListener("mousedown", closeByOverlay);
+      // Удаляем в cleanup функции
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+        document.removeEventListener("mousedown", closeByOverlay);
+      };
+    }
+  }, [isOpenPopup]);
 
   return (
     <div className="App">

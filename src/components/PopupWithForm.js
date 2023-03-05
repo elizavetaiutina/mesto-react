@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 function PopupWithForm({
   title,
   name,
@@ -11,23 +9,10 @@ function PopupWithForm({
   onClose,
   onSubmit,
 }) {
-  useEffect(() => {
-    document.addEventListener("mousedown", (event) => {
-      if (event.target.classList.contains("pop-up_opened")) {
-        onClose();
-      }
-    });
-  }, []);
-
   return (
     <div className={`pop-up pop-up_type_${name} ${isOpen ? "pop-up_opened" : ""}`}>
       <div className="pop-up__container">
-        <button
-          type="button"
-          aria-label="Закрыть"
-          className="pop-up__exit"
-          onClick={onClose}
-        ></button>
+        <button type="button" aria-label="Закрыть" className="pop-up__exit" onClick={onClose} />
         <h2 className="pop-up__title">{title}</h2>
         <form name={`form-${name}`} className={`form form_type_${name}`} onSubmit={onSubmit}>
           {children}
