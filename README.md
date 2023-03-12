@@ -31,7 +31,7 @@
 
 ```bash
 git clone git@github.com:elizavetaiutina/mesto-react.git
-cd mesto
+cd mesto-react
 npm install
 npm run start
 ```
